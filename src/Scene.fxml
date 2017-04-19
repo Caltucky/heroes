@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefWidth="630.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Query">
+   <children>
+      <ImageView fitHeight="146.0" fitWidth="640.0" opacity="0.84" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <image>
+            <Image url="@images/goko.png" />
+         </image>
+         <effect>
+            <Glow level="1.0" />
+         </effect>
+      </ImageView>
+      <SplitPane layoutX="14.0" layoutY="149.0" AnchorPane.bottomAnchor="190.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
+        <items>
+          <AnchorPane prefHeight="198.0" prefWidth="158.0">
+               <children>
+                  <Label alignment="CENTER" layoutX="26.0" layoutY="6.0" prefHeight="27.0" prefWidth="160.0" style="-fx-background-color: lightgray;" text="TEAM ONE" textFill="RED" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="478.0" AnchorPane.topAnchor="0.0" />
+                  <ListView fx:id="teamOneList" layoutX="-26.0" layoutY="17.0" prefHeight="162.0" prefWidth="160.0" style="-fx-background-color: lightgray;" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="478.0" AnchorPane.topAnchor="27.0">
+                     <contextMenu>
+                        <ContextMenu>
+                          <items>
+                            <MenuItem fx:id="removeFromTeamOne" mnemonicParsing="false" onAction="#removeFromTeamOne" text="Remove From Team" />
+                          </items>
+                        </ContextMenu>
+                     </contextMenu></ListView>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+      <SplitPane layoutY="290.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="290.0">
+         <items>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="198.0" prefWidth="158.0">
+               <children>
+                  <Label alignment="CENTER" layoutX="26.0" layoutY="6.0" prefHeight="27.0" prefWidth="160.0" style="-fx-background-color: lightgray;" text="TEAM TWO" textFill="RED" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="478.0" AnchorPane.topAnchor="0.0" />
+                  <ListView fx:id="teamTwoList" layoutX="-43.0" layoutY="-19.0" prefHeight="178.0" prefWidth="160.0" style="-fx-background-color: lightgray;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="478.0" AnchorPane.topAnchor="27.0">
+                     <contextMenu>
+                        <ContextMenu>
+                          <items>
+                            <MenuItem fx:id="removeFromTeamTwo" mnemonicParsing="false" onAction="#removeFromTeamTwo" text="Remove from Team" />
+                          </items>
+                        </ContextMenu>
+                     </contextMenu></ListView>
+               </children>
+            </AnchorPane>
+         </items>
+      </SplitPane>
+      <MenuBar layoutX="3.0" layoutY="2.0" style="-fx-background-color: #b91600; -fx-border-color: #b91600; -fx-border-width: 2;" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="Resources">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#openRiot" text="Riot Games" />
+                  <MenuItem mnemonicParsing="false" onAction="#openLeague" text="League of Legends" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Clear Team One" />
+                  <MenuItem mnemonicParsing="false" text="Clear Team Two" />
+                  <MenuItem mnemonicParsing="false" text="Clear Both Teams" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#showAbout" text="About Goko" />
+            </items>
+          </Menu>
+        </menus>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </MenuBar>
+      <Button fx:id="closeMain" layoutX="591.0" layoutY="67.0" mnemonicParsing="false" onMouseClicked="#closeMain" style="-fx-background-color: #b91600; -fx-border-color: red;" text="Exit" />
+      <AnchorPane layoutX="161.0" layoutY="100.0" prefHeight="390.0" prefWidth="480.0">
+         <children>
+            <TableView fx:id="tableID" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <columns>
+                  <TableColumn fx:id="ID" prefWidth="75.0" text="ID" visible="false" />
+                  <TableColumn fx:id="NAME" prefWidth="75.0" text="Name" />
+                  <TableColumn fx:id="TITLE" prefWidth="75.0" text="Title" visible="false" />
+                  <TableColumn fx:id="ROLE_1" prefWidth="75.0" text="Role" />
+                  <TableColumn fx:id="ROLE_2" prefWidth="75.0" text="Role" />
+                  <TableColumn fx:id="HEALTH" prefWidth="75.0" text="Health" />
+                  <TableColumn fx:id="HEALTH_REGEN" prefWidth="75.0" text="HRegen" />
+                  <TableColumn fx:id="MANA" prefWidth="75.0" text="Mana" />
+                  <TableColumn fx:id="MANA_REGEN" prefWidth="75.0" text="MRegen" />
+                  <TableColumn fx:id="MOVEMENT_SPEED" maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="MovSpeed" />
+                  <TableColumn fx:id="ATTACK_DAMAGE" prefWidth="75.0" text="ADamage" />
+                  <TableColumn fx:id="ATTACK_RANGE" prefWidth="75.0" text="ARange" />
+                  <TableColumn fx:id="ATTACK_SPEED" prefWidth="75.0" text="ASpeed" />
+                  <TableColumn fx:id="ARMOR" prefWidth="75.0" text="Armor" />
+                  <TableColumn fx:id="MAGIC_RESIST" prefWidth="75.0" text="MR" />
+              </columns>
+               <contextMenu>
+                  <ContextMenu>
+                    <items>
+                      <MenuItem fx:id="addTeamOne" mnemonicParsing="false" onAction="#addTeamOne" text="Add to Team One" />
+                        <MenuItem fx:id="addTeamTwo" mnemonicParsing="false" onAction="#addTeamTwo" text="Add to Team Two" />
+                    </items>
+                  </ContextMenu>
+               </contextMenu>
+            </TableView>
+         </children>
+      </AnchorPane>
+      <Button fx:id="execute" layoutX="34.0" layoutY="68.0" mnemonicParsing="false" onMouseClicked="#execute" text="Execute" />
+      <Button fx:id="accuracy" layoutX="94.0" layoutY="68.0" mnemonicParsing="false" onMouseClicked="#accuracy" text="Accuracy" />
+   </children>
+</AnchorPane>
