@@ -90,7 +90,14 @@ public class Query extends Application implements Initializable{
     @FXML
     TableColumn<Table, Float> MAGIC_RESIST;
 
-
+    /**
+     * Called to initialize a controller after its root element has been
+     * completely processed.
+     *
+     * @param location The location used to resolve relative paths for the
+     *                 root object
+     * @param resources The resources used to localize the root object
+     */
     public void initialize(URL location, ResourceBundle resources) {
         ID.setCellValueFactory(new PropertyValueFactory<>("rID"));
         NAME.setCellValueFactory(new PropertyValueFactory<>("rNAME"));
@@ -110,6 +117,12 @@ public class Query extends Application implements Initializable{
         tableID.setItems(queryChampions());
     }
 
+    /**
+     * Execute when the execute button is pressed on the main user interface.
+     * It pulls the IDs from team arrays and loads them into the Python
+     * function. The Python function returns the the results from the machine
+     * learning algorithm and uses that value to display to the user.
+     */
     public void execute() {
 
 /*        // TODO: use for faster testing only comment this out when running
@@ -176,27 +189,45 @@ public class Query extends Application implements Initializable{
         }
     }
 
+    /**
+     * Creates the initial stage for the primary user interface screen. It
+     * loads the screen without any controls directly available to the user
+     *
+     * @param primaryStage the primary stage
+     * @throws Exception IO exception
+     */
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("Scene"
                 + ".fxml"));
-        stage.resizableProperty().setValue(Boolean.FALSE);
-        stage.initStyle(StageStyle.UNDECORATED);
+        primaryStage.resizableProperty().setValue(Boolean.FALSE);
+        primaryStage.initStyle(StageStyle.UNDECORATED);
         Scene mainScene = new Scene(root);
-        stage.setScene(mainScene);
-        stage.show();
+        primaryStage.setScene(mainScene);
+        primaryStage.show();
     }
 
+    /**
+     * calls the fxml code that opens the riot.com web page
+     */
     @FXML
     private void openRiot() {
         getHostServices().showDocument(riotText.getText());
     }
 
+    /**
+     * calls the fxml code that opens the leagueoflegends.com web page
+     */
     @FXML
     private void openLeague() {
         getHostServices().showDocument(leagueText.getText());
     }
 
+    /**
+     * opens the about information window
+     *
+     * @throws Exception IO exception
+     */
     @FXML
     private void showAbout() throws Exception {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -208,17 +239,28 @@ public class Query extends Application implements Initializable{
                 + "between two five-man teams playing a League of Legends "
                 + "match. The champions and their data are stored in a SQLite"
                 + " database."
-                + "\n\nApplication Creators: Myron King & Jian Hua"
+                + "\n\nApplication Creators: Myron King, Tri Nguyen & Jian Hua"
                 + "\n\nCreated Spring 2017");
         alert.showAndWait();
     }
 
+    /**
+     * closes the primary user interface when the user clicks the exit button
+     */
     @FXML
     private void closeMain(){
         Stage stage = (Stage) closeMain.getScene().getWindow();
         stage.close();
     }
 
+    /**
+     * Establishes a connection to the database via a JDBC connection. The
+     * database is stored locally on the users hard drive as an SQLite
+     * database. There is a simple select query that runs to pull all
+     * champions from the database and puts them in a list.
+     *
+     * @return the Observable list of champions from the database
+     */
     private ObservableList<Table> queryChampions() {
         Connection c;
         Statement stmt;
@@ -250,6 +292,24 @@ public class Query extends Application implements Initializable{
         return theChampionsList;
     }
 
+    /**
+     * The index value is coming from addTeamOne() (which ultimately get
+     * the index value from the mouse click). If the number of
+     * players on the team is already 5, the warning box is displayed and the
+     * user can not add any more players to this team.
+     *
+     * Each champion is viewed as a table entry; there is a list of table
+     * entries that is generated.
+     *
+     * The indexed champion is removed from the list (the selectable
+     * champions) and added to an array list for the team (used to send data
+     * to the Python machine learning algorithm) and a list to display the
+     * selected champion in the teams selection area.
+     *
+     * Finally, the count of the team is incremented.
+     *
+     * @param index the index value assigned by the mouse click
+     */
     private void addToTeamOne(int index) {
         if(countOfTeamOne < 5) {
             final List<Table> items = tableID.getItems();
@@ -272,6 +332,24 @@ public class Query extends Application implements Initializable{
         }
     }
 
+    /**
+     * The index value is coming from the addTeamTwo() (which ultimately get
+     * the index value from the mouse click). If the number of
+     * players on the team is already 5, the warning box is displayed and the
+     * user can not add any more players to this team.
+     *
+     * Each champion is viewed as a table entry; there is a list of table
+     * entries that is generated.
+     *
+     * The indexed champion is removed from the list (the selectable
+     * champions) and added to an array list for the team (used to send data
+     * to the Python machine learning algorithm) and a list to display the
+     * selected champion in the teams selection area.
+     *
+     * Finally, the count of the team is incremented.
+     *
+     * @param index the index value assigned by the mouse click
+     */
     private void addToTeamTwo(int index) {
         if(countOfTeamTwo < 5) {
             final List<Table> items = tableID.getItems();
@@ -294,12 +372,19 @@ public class Query extends Application implements Initializable{
         }
     }
 
+    /**
+     * Gets the row from the mouse click, then uses that index to add the
+     * removed champion to a removed list (the removed list is ultimately
+     * used to return champions back to the selectable pool of champions on
+     * the right side of the user interface), and also to add the selected
+     * champion to the selected team.
+     */
     @FXML
     private void addTeamOne() {
         if(countOfTeamOne < 5) {
             int i = tableID.getSelectionModel().getSelectedCells().get(0)
                     .getRow();
-            updateRemoved(tableID.getItems().get(i));
+            removedChampion.add(tableID.getItems().get(i));
             addToTeamOne(i);
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -312,12 +397,19 @@ public class Query extends Application implements Initializable{
         }
     }
 
+    /**
+     * Gets the row from the mouse click, then uses that index to add the
+     * removed champion to a removed list (the removed list is ultimately
+     * used to return champions back to the selectable pool of champions on
+     * the right side of the user interface), and also to add the selected
+     * champion to the selected team.
+     */
     @FXML
     private void addTeamTwo() {
         if(countOfTeamTwo < 5) {
             int i = tableID.getSelectionModel().getSelectedCells().get(0)
                     .getRow();
-            updateRemoved(tableID.getItems().get(i));
+            removedChampion.add(tableID.getItems().get(i));
             addToTeamTwo(i);
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -330,64 +422,71 @@ public class Query extends Application implements Initializable{
         }
     }
 
-    private void updateRemoved(Table t) {
-        removedChampion.add(t);
-//        System.out.println(removedChampion.size());
-        System.out.println("The following players have now been removed from "
-                + "the pool of selectable players:");
-        for (Table aRemovedChampion : removedChampion) {
-            System.out.println(aRemovedChampion.getRNAME());
-        }
-    }
-
+    /**
+     * removes the selected champion from the team and puts the selected player
+     * back in the selectable pool of champion. Removes selected champion
+     * from three areas, the removed list, the list of names used to shaow
+     * selected players for that team, and the array list of tables being
+     * sent to Python.
+     */
     @FXML
     private void removeFromTeamOne() {
         String toClearFromTeam = teamOneList.getSelectionModel()
-                .getSelectedItems().get(0);
+                .getSelectedItems().get(0); // gets the selected champion's name
         for (int i = 0; i < removedChampion.size(); i++) {
             if(toClearFromTeam.compareTo(removedChampion.get(i).getRNAME())
-                    == 0) {
-                theChampionsList.add(removedChampion.get(i));
-                removedChampion.remove(i);
+                    == 0) { // iterates through the team and removes matching
+                // name
+                theChampionsList.add(removedChampion.get(i)); // adds back to
+                // the primary selectable list
+                removedChampion.remove(i); // removes the champion from
+                // removed list
             }
         }
         for(int i = 0; i < countOfTeamOne; i++) {
             if (teamOneList.getItems().get(i).compareTo(toClearFromTeam) == 0) {
-                System.out.println("team one has " + teamOneArray.size() +
-                        " members before being removed.");
-                teamOneList.getItems().remove(i);
-                teamOneArray.remove(i);
-                System.out.println("team one has " + teamOneArray.size() +
-                        " members after removal.");
+                teamOneList.getItems().remove(i); // removes from team list
+                teamOneArray.remove(i); // removes from array list that will
+                // eventually be sent to Python
                 countOfTeamOne--;
             }
         }
     }
 
+    /**
+     * removes the selected champion from the team and puts the selected player
+     * back in the selectable pool of champion. Removes selected champion
+     * from three areas, the removed list, the list of names used to shaow
+     * selected players for that team, and the array list of tables being
+     * sent to Python.
+     */
     @FXML
     private void removeFromTeamTwo() {
         String toClearFromTeam = teamTwoList.getSelectionModel()
-                .getSelectedItems().get(0);
+                .getSelectedItems().get(0); // gets the selected champion's name
         for (int i = 0; i < removedChampion.size(); i++) {
             if(toClearFromTeam.compareTo(removedChampion.get(i).getRNAME())
-                    == 0) {
-                theChampionsList.add(removedChampion.get(i));
-                removedChampion.remove(i);
+                    == 0) { // iterates through the team and removes matching
+                // name
+                theChampionsList.add(removedChampion.get(i)); // adds back to
+                // the primary selectable list
+                removedChampion.remove(i); // removes the champion from
+                // removed list
             }
         }
         for(int i = 0; i < countOfTeamTwo; i++) {
             if (teamTwoList.getItems().get(i).compareTo(toClearFromTeam) == 0) {
-                System.out.println("team two has " + teamTwoArray.size() +
-                        " members before being removed.");
-                teamTwoList.getItems().remove(i);
-                teamTwoArray.remove(i);
-                System.out.println("team two has " + teamTwoArray.size() +
-                        " members after removal.");
+                teamTwoList.getItems().remove(i); // removes from team list
+                teamTwoArray.remove(i);// removes from array list that will
+                // eventually be sent to Python
                 countOfTeamTwo--;
             }
         }
     }
 
+    /**
+     * Displays the accuracy of our machine learning algorithm
+     */
     public void accuracy() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Accuracy");
