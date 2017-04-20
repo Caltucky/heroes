@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -495,5 +496,39 @@ public class Query extends Application implements Initializable{
                 + "precision of this model is 85.66% and the accuracy of this "
                 + "model is 84.12%.");
         alert.showAndWait();
+    }
+
+    public void clearTeamOneList(ActionEvent actionEvent) {
+        int sizeOfListOne = removedChampion.size();
+        for (int i = 0; i < sizeOfListOne; i++) {
+            theChampionsList.add(removedChampion.get(0));
+            removedChampion.remove(0);
+        }
+        for(int i = 0; i < countOfTeamOne; i++) {
+            teamOneList.getItems().remove(0);
+        }
+        countOfTeamOne = 0;
+        System.out.println("Clear Team One Successfully!!!");
+    }
+
+    public void clearTeamTwoList(ActionEvent actionEvent) {
+        int sizeOfListTwo = removedChampion.size();
+        for (int i = 0; i < sizeOfListTwo; i++) {
+            theChampionsList.add(removedChampion.get(0));
+            removedChampion.remove(0);
+        }
+        for(int i = 0; i < countOfTeamTwo; i++) {
+            teamTwoList.getItems().remove(0);
+        }
+        countOfTeamTwo = 0;
+        System.out.println("Clear Team Two Successfully!!!");
+    }
+
+    public void clearTwoList(ActionEvent actionEvent) {
+
+        clearTeamOneList(actionEvent);
+        clearTeamTwoList(actionEvent);
+
+        System.out.println("Clear Two Teams Successfully!!!");
     }
 }
