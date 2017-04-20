@@ -1,42 +1,28 @@
-/**
+/*
  * Created by myron on 3/22/2017.
  */
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.binding.Bindings;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.util.Callback;
 import org.python.core.PyInstance;
-import org.python.core.PyObject;
-
-import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 import java.util.ResourceBundle;
 
 public class Query extends Application implements Initializable{
@@ -56,9 +42,11 @@ public class Query extends Application implements Initializable{
 
     private int countOfTeamOne = 0;
     private int countOfTeamTwo = 0;
+
+    @SuppressWarnings("unchecked")
     private ArrayList <Table>teamOneArray = new ArrayList();
+    @SuppressWarnings("unchecked")
     private ArrayList <Table>teamTwoArray = new ArrayList();
-    private double temp = 0;
 
     @FXML
     ListView<String> teamOneList = new ListView<>();
@@ -67,8 +55,6 @@ public class Query extends Application implements Initializable{
 
     @FXML
     public Button closeMain = new Button();
-    @FXML
-    public Button closeAbout = new Button();
 
     // Define Table
     @FXML
@@ -105,10 +91,7 @@ public class Query extends Application implements Initializable{
     TableColumn<Table, Float> MAGIC_RESIST;
 
 
-
-
     public void initialize(URL location, ResourceBundle resources) {
-
         ID.setCellValueFactory(new PropertyValueFactory<>("rID"));
         NAME.setCellValueFactory(new PropertyValueFactory<>("rNAME"));
         TITLE.setCellValueFactory(new PropertyValueFactory<>("rTITLE"));
@@ -125,14 +108,11 @@ public class Query extends Application implements Initializable{
         ARMOR.setCellValueFactory(new PropertyValueFactory<>("rARMOR"));
         MAGIC_RESIST.setCellValueFactory(new PropertyValueFactory<>("rMAGIC_RESIST"));
         tableID.setItems(queryChampions());
-
     }
 
+    public void execute() {
 
-    public void execute(MouseEvent mouseEvent) {
-
-/*
-        // TODO: use for faster testing only comment this out when running
+/*        // TODO: use for faster testing only comment this out when running
         final List<Table> items = tableID.getItems();
         teamOneArray.add(items.remove(0));
         teamOneArray.add(items.remove(1));
@@ -145,8 +125,7 @@ public class Query extends Application implements Initializable{
         teamTwoArray.add(items.remove(8));
         teamTwoArray.add(items.remove(9));
         countOfTeamOne = 5;
-        countOfTeamTwo = 5;
-*/
+        countOfTeamTwo = 5;*/
 
         // keep this uncommented from here down
         if (countOfTeamOne == 5 && countOfTeamTwo == 5) {
@@ -178,7 +157,7 @@ public class Query extends Application implements Initializable{
             hello.invoke("calc");
             hello.invoke("execute");
 
-            temp = hello.__getattr__("probability").asDouble();
+            double temp = hello.__getattr__("probability").asDouble();
             temp = Math.floor(temp * 10000) / 100;
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -370,9 +349,6 @@ public class Query extends Application implements Initializable{
                     == 0) {
                 theChampionsList.add(removedChampion.get(i));
                 removedChampion.remove(i);
-//                System.out.println("matches");
-            } else {
-//                System.out.println("doesn't match");
             }
         }
         for(int i = 0; i < countOfTeamOne; i++) {
@@ -397,9 +373,6 @@ public class Query extends Application implements Initializable{
                     == 0) {
                 theChampionsList.add(removedChampion.get(i));
                 removedChampion.remove(i);
-//                System.out.println("matches");
-            } else {
-//                System.out.println("doesn't match");
             }
         }
         for(int i = 0; i < countOfTeamTwo; i++) {
@@ -415,7 +388,7 @@ public class Query extends Application implements Initializable{
         }
     }
 
-    public void accuracy(MouseEvent mouseEvent) {
+    public void accuracy() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Accuracy");
         alert.setHeaderText(null);

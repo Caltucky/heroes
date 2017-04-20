@@ -1,9 +1,7 @@
 # Created by myron on 4/12/2017.
 # This is Python file that is executed from Java code
 from org.python.modules import math
-
 import csv
-
 
 
 class RunExecute:
@@ -13,18 +11,18 @@ class RunExecute:
     temp = [0] * 11
     probability = 0
 
-    def __init__(self, ID1, ID2, ID3, ID4, ID5, ID6, ID7, ID8, ID9, ID10):
+    def __init__(self, id1, id2, id3, id4, id5, id6, id7, id8, id9, id10):
         self.temp[0] = 0
-        self.temp[1] = ID1
-        self.temp[2] = ID2
-        self.temp[3] = ID3
-        self.temp[4] = ID4
-        self.temp[5] = ID5
-        self.temp[6] = ID6
-        self.temp[7] = ID7
-        self.temp[8] = ID8
-        self.temp[9] = ID9
-        self.temp[10] = ID10
+        self.temp[1] = id1
+        self.temp[2] = id2
+        self.temp[3] = id3
+        self.temp[4] = id4
+        self.temp[5] = id5
+        self.temp[6] = id6
+        self.temp[7] = id7
+        self.temp[8] = id8
+        self.temp[9] = id9
+        self.temp[10] = id10
 
     def calc(self):
         with open("champions.tsv") as tsv:
@@ -32,10 +30,6 @@ class RunExecute:
                 temp1 = map(int, line[0:2])
                 self.mapping[temp1[0]] = temp1[1]
         tsv.close()
-
-        # it's out of scope
-
-        # temp = [0,54,80,25,202,267,223,1,23,28,64,267,223,1]
 
         if len(self.temp) > 2:
             team1 = [0] * 134
@@ -59,26 +53,22 @@ class RunExecute:
             self.data.append(team1)
 
         calc = open("calc.txt", "r")
-        sum = 0
+        current_sum = 0
         index = 0
         for line in calc:
             temp3 = line.split()
-            sum = sum + self.data[0][index] * float(temp3[0])
-            index = index +1
-            sum = sum + self.data[0][index] * float(temp3[1])
+            current_sum = current_sum + self.data[0][index] * float(temp3[0])
             index = index + 1
-            sum = sum + self.data[0][index] * float(temp3[2])
+            current_sum = current_sum + self.data[0][index] * float(temp3[1])
             index = index + 1
-            sum = sum + self.data[0][index] * float(temp3[3])
+            current_sum = current_sum + self.data[0][index] * float(temp3[2])
+            index = index + 1
+            current_sum = current_sum + self.data[0][index] * float(temp3[3])
             index = index + 1
         print calc
         print len(self.data[0])
-        sum = -sum
-        self.probability = 1 / (1 + math.exp(sum))
-
-
-    def run(self):
-        print 'This is Python code running in Java! Took 20 minutes!'
+        current_sum = -current_sum
+        self.probability = 1 / (1 + math.exp(current_sum))
 
     def execute(self):
         for i in range(len(self.temp)):
