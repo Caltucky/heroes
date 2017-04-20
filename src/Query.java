@@ -6,7 +6,6 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -168,7 +167,6 @@ public class Query extends Application implements Initializable{
                     championNineID,
                     championTenID);
             hello.invoke("calc");
-
             double temp = hello.__getattr__("probability").asDouble();
             temp = Math.floor(temp * 10000) / 100;
 
@@ -499,37 +497,61 @@ public class Query extends Application implements Initializable{
         alert.showAndWait();
     }
 
-    public void clearTeamOneList(ActionEvent actionEvent) {
-        int sizeOfListOne = removedChampion.size();
-        for (int i = 0; i < sizeOfListOne; i++) {
-            theChampionsList.add(removedChampion.get(0));
-            removedChampion.remove(0);
+    /**
+     * Iterates through the team array and gets the name at every jth index,
+     * then removes that champion from the removed champion array and adds
+     * back to the selectable array. The the ListView and the team ArrayList
+     * are both cleared.
+     */
+    public void clearTeamOneList() {
+        for (Table aTeamOneArray : teamOneArray) {
+            String toClearFromTeam = aTeamOneArray.getRNAME();
+            for (int i = 0; i < removedChampion.size(); i++) {
+                if (toClearFromTeam.compareTo(removedChampion.get(i).getRNAME())
+                        == 0) { // iterates through the team and removes matching
+                    // name
+                    theChampionsList.add(removedChampion.get(i)); // adds back to
+                    // the primary selectable list
+                    removedChampion.remove(i); // removes the champion from
+                    // removed list
+                }
+            }
         }
-        for(int i = 0; i < countOfTeamOne; i++) {
-            teamOneList.getItems().remove(0);
-        }
+        teamOneList.getItems().clear();
+        teamOneArray.clear();
         countOfTeamOne = 0;
-        System.out.println("Clear Team One Successfully!!!");
     }
 
-    public void clearTeamTwoList(ActionEvent actionEvent) {
-        int sizeOfListTwo = removedChampion.size();
-        for (int i = 0; i < sizeOfListTwo; i++) {
-            theChampionsList.add(removedChampion.get(0));
-            removedChampion.remove(0);
+    /**
+     * Iterates through the team array and gets the name at every jth index,
+     * then removes that champion from the removed champion array and adds
+     * back to the selectable array. The the ListView and the team ArrayList
+     * are both cleared.
+     */
+    public void clearTeamTwoList() {
+        for (Table aTeamTwoArray : teamTwoArray) {
+            String toClearFromTeam = aTeamTwoArray.getRNAME();
+            for (int i = 0; i < removedChampion.size(); i++) {
+                if (toClearFromTeam.compareTo(removedChampion.get(i).getRNAME())
+                        == 0) { // iterates through the team and removes matching
+                    // name
+                    theChampionsList.add(removedChampion.get(i)); // adds back to
+                    // the primary selectable list
+                    removedChampion.remove(i); // removes the champion from
+                    // removed list
+                }
+            }
         }
-        for(int i = 0; i < countOfTeamTwo; i++) {
-            teamTwoList.getItems().remove(0);
-        }
+        teamTwoList.getItems().clear();
+        teamTwoArray.clear();
         countOfTeamTwo = 0;
-        System.out.println("Clear Team Two Successfully!!!");
     }
 
-    public void clearTwoList(ActionEvent actionEvent) {
-
-        clearTeamOneList(actionEvent);
-        clearTeamTwoList(actionEvent);
-
-        System.out.println("Clear Two Teams Successfully!!!");
+    /**
+     * Simply runs both clear methods
+     */
+    public void clearTwoList() {
+        clearTeamOneList();
+        clearTeamTwoList();
     }
 }
