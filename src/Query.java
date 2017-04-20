@@ -154,7 +154,6 @@ public class Query extends Application implements Initializable{
             int championEightID = teamTwoArray.get(2).getRID();
             int championNineID = teamTwoArray.get(3).getRID();
             int championTenID = teamTwoArray.get(4).getRID();
-//            String championOneName = teamOneArray.get(0).getRNAME();
             Interpreter ie = new Interpreter();
             ie.execfile("runExecute.py");
             PyInstance hello = ie.createClass("RunExecute",
@@ -169,7 +168,6 @@ public class Query extends Application implements Initializable{
                     championNineID,
                     championTenID);
             hello.invoke("calc");
-            hello.invoke("execute");
 
             double temp = hello.__getattr__("probability").asDouble();
             temp = Math.floor(temp * 10000) / 100;

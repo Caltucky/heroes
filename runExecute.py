@@ -3,7 +3,6 @@
 from org.python.modules import math
 import csv
 
-
 class RunExecute:
     mapping = [0] * 134
     data = []
@@ -11,6 +10,8 @@ class RunExecute:
     temp = [0] * 11
     probability = 0
 
+    # 10 ids as parameters and self as parameter
+    # assigns the id values to the local self temp array values
     def __init__(self, id1, id2, id3, id4, id5, id6, id7, id8, id9, id10):
         self.temp[0] = 0
         self.temp[1] = id1
@@ -24,6 +25,7 @@ class RunExecute:
         self.temp[9] = id9
         self.temp[10] = id10
 
+    # This is the primary method that computes the likely outcome of the match
     def calc(self):
         with open("champions.tsv") as tsv:
             for line in csv.reader(tsv, dialect="excel-tab"):
@@ -65,16 +67,7 @@ class RunExecute:
             index = index + 1
             current_sum = current_sum + self.data[0][index] * float(temp3[3])
             index = index + 1
-        print calc
-        print len(self.data[0])
+        # print calc
+        # print len(self.data[0])
         current_sum = -current_sum
         self.probability = 1 / (1 + math.exp(current_sum))
-
-    def execute(self):
-        for i in range(len(self.temp)):
-            print self.temp[i]
-        print self.mapping
-        print self.data
-        # print self.sum
-        print self.probability
-        # return int(self.probability.__int__(self.probability))
