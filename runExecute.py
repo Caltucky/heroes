@@ -76,6 +76,10 @@ class RunExecute:
         sum = -sum
         self.probability = 1 / (1 + math.exp(sum))
 
+
+    def run(self):
+        print 'This is Python code running in Java! Took 20 minutes!'
+
     def execute(self):
         for i in range(len(self.temp)):
             print self.temp[i]
