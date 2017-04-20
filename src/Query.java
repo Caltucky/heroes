@@ -240,8 +240,11 @@ public class Query extends Application implements Initializable{
                 + "between two five-man teams playing a League of Legends "
                 + "match. The champions and their data are stored in a SQLite"
                 + " database."
-                + "\n\nApplication Creators: Myron King, Tri Nguyen & Jian Hua"
-                + "\n\nCreated Spring 2017");
+                + "\n\nApplication Creators:" +
+                        "\n\t-Myron King" +
+                        "\n\t-Tri Nguyen" +
+                        "\n\t-Jian Hua"
+                + "\n\nCreated for CS4440 - Spring 2017");
         alert.showAndWait();
     }
 
